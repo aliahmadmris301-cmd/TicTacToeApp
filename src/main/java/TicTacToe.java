@@ -1,36 +1,58 @@
+import java.util.Random;
 /**
  * TicTacToe
- * UC5 validates whether a move is inside the board boundaries
- * and whether the selected cell is empty.
+ * UC7 allows the computer to make a random valid move
+ * by reusing slot conversion and validation logic.
  */
 public class TicTacToe {
     static char[][] board = {
-        {'-', '-', '-'},
-        {'-', '-', '-'},
-        {'-', '-', '-'}
+            {'-', '-', '-'},
+            {'-', '-', '-'},
+            {'-', '-', '-'}
     };
+    static char computerSymbol = 'O';
     /**
-     * Entry point of the program. Tests the validation logic
-     * using sample row and column values.
+     * Entry point of the program. Triggers the computer move.
      */
     public static void main(String[] args) {
-        System.out.println(isValidMove(1, 1));
+        printBoard();
+        computerMove();
+        System.out.println("\nAfter computer move:");
+        printBoard();
     }
     /**
-     * Checks if the given row and column are within bounds
-     * and if the target cell is empty.
-     * Input: Row, Column
-     * Output: true if valid, false otherwise.
+     * Generates random slot values until a valid move is found,
+     * then places the computer symbol on the board.
+     */
+    static void computerMove() {
+        Random random = new Random();
+        int row, col;
+        while (true) {
+            int slot = random.nextInt(9) + 1; // 1 to 9
+            row = (slot - 1) / 3;
+            col = (slot - 1) % 3;
+            if (isValidMove(row, col)) {
+                board[row][col] = computerSymbol;
+                System.out.println("Computer chose slot: " + slot);
+                break;
+            }
+        }
+    }
+    /**
+     * Checks if a move is valid (cell is empty).
      */
     static boolean isValidMove(int row, int col) {
-        // Check boundaries
-        if (row < 0 || row >= 3 || col < 0 || col >= 3) {
-            return false;
+        return board[row][col] == '-';
+    }
+    /**
+     * Prints the current board.
+     */
+    static void printBoard() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
         }
-        // Check if cell is empty
-        if (board[row][col] != '-') {
-            return false;
-        }
-        return true;
     }
 }
