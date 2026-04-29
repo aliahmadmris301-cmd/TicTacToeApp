@@ -1,58 +1,26 @@
-import java.util.Random;
 /**
  * TicTacToe
- * UC7 allows the computer to make a random valid move
- * by reusing slot conversion and validation logic.
+ * UC8 controls the continuous game loop and alternates
+ * turns until the game ends.
  */
 public class TicTacToe {
-    static char[][] board = {
-            {'-', '-', '-'},
-            {'-', '-', '-'},
-            {'-', '-', '-'}
-    };
-    static char computerSymbol = 'O';
+    static boolean isHumanTurn = true;
+    static boolean gameOver = false;
     /**
-     * Entry point of the program. Triggers the computer move.
+     * Entry point of the program. Demonstrates the structure
+     * of a continuous game loop.
      */
     public static void main(String[] args) {
-        printBoard();
-        computerMove();
-        System.out.println("\nAfter computer move:");
-        printBoard();
-    }
-    /**
-     * Generates random slot values until a valid move is found,
-     * then places the computer symbol on the board.
-     */
-    static void computerMove() {
-        Random random = new Random();
-        int row, col;
-        while (true) {
-            int slot = random.nextInt(9) + 1; // 1 to 9
-            row = (slot - 1) / 3;
-            col = (slot - 1) % 3;
-            if (isValidMove(row, col)) {
-                board[row][col] = computerSymbol;
-                System.out.println("Computer chose slot: " + slot);
-                break;
+        while (!gameOver) {
+            if (isHumanTurn) {
+                System.out.println("Human Turn");
+                // call humanMove();
+            } else {
+                System.out.println("Computer Turn");
+                // call computerMove();
             }
-        }
-    }
-    /**
-     * Checks if a move is valid (cell is empty).
-     */
-    static boolean isValidMove(int row, int col) {
-        return board[row][col] == '-';
-    }
-    /**
-     * Prints the current board.
-     */
-    static void printBoard() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(board[i][j] + " ");
-            }
-            System.out.println();
+            // checkGameStatus();
+            isHumanTurn = !isHumanTurn; // switch turns
         }
     }
 }
